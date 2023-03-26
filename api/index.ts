@@ -1,5 +1,3 @@
-import dotenv from 'dotenv';
-dotenv.config();
 import { VercelRequest, VercelResponse } from '@vercel/node';
 
 export default (req: VercelRequest, res: VercelResponse) => {
