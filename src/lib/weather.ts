@@ -6,9 +6,20 @@ export async function fetchWeather(lat: number, lon: number, unit: string) {
   const url = `${base}${params}`;
   try {
     const res = await fetch(url);
-    return await res.json();
+    if (!res.ok) {
+      throw new Error(`Failed to fetch: ${res.status}`)
+    }
+    const data = await res.json();
+    const weather = {
+      temperature: data.main.temp,
+      weathercode: data.weather[0].id,
+      text: data.weather[0].main,
+      text_long: data.weather[0].description,
+      time: data.dt * 1000,
+    };
+    return weather;
   } catch(error) {
-    console.log(error);
+    console.error(error);
   }
 }
 
@@ -18,12 +29,14 @@ export async function fetchGeolocation(query: string) {
   const url = `${base}${params}`;
   try {
     const res = await fetch(url);
-    const result = await res.json();
-
-    if (result.length) {
-      return result[0];
+    if (!res.ok) {
+      throw new Error(`Failed to fetch: ${res.status}`)
+    }
+    const data = await res.json();
+    if (data.length) {
+      return data[0];
     }
   } catch(error) {
-    console.log(error);
+    console.error(error);
   }
 }

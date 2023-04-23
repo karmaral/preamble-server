@@ -3,12 +3,12 @@ import { fetchWeather } from '../src/lib/weather';
 
 export default async (req: VercelRequest, res: VercelResponse) => {
   if (req.method === 'GET') {
-    const { latitude, longitude, unit } = req.query;
-    const lat = Number(Array.isArray(latitude) ? latitude[0] : latitude);
-    const lon = Number(Array.isArray(longitude) ? longitude[0] : longitude);
+    const { lat, lon, unit } = req.query;
+    const latitude = Number(Array.isArray(lat) ? lat[0] : lat);
+    const longitude = Number(Array.isArray(lon) ? lon[0] : lon);
     const u = Array.isArray(unit) ? unit[0] : unit;
 
-    const data = await fetchWeather(lat, lon, u);
+    const data = await fetchWeather(latitude, longitude, u);
 
     res.status(200).json(data);
   } else {
